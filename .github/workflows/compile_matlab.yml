@@ -39,9 +39,9 @@ jobs:
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
           if [ $(uname -m) == "x86_64" ]; then
-            echo "Package=${PWD}/DRSuite_${{ env.VERSION }}_mac_x64.zip" >> $GITHUB_ENV          
+            echo "Package=${PWD}/DRSuite_${RELEASEVERSION}_mac_x64.zip" >> $GITHUB_ENV          
           else
-            echo "Package=${PWD}/DRSuite_${{ env.VERSION }}_mac_ARM64.zip" >> $GITHUB_ENV
+            echo "Package=${PWD}/DRSuite_${RELEASEVERSION}_mac_ARM64.zip" >> $GITHUB_ENV
           fi
 
       - name: Set up MATLAB
@@ -67,7 +67,7 @@ jobs:
         run: |
           cp LICENSE.txt readme.md bin
           cd ..
-          zip -r ${{env.PACKAGE}} DRSuite/bin
+          zip -r "${PACKAGE}" DRSuite/bin
           
       - name: Save Binaries as Artifact
         uses: actions/upload-artifact@v4
