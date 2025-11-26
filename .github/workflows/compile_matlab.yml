@@ -32,16 +32,16 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-          echo "Package=${PWD}/DRSuite_${RELEASEVERSION}_linux_x64.zip" >> $GITHUB_ENV
+          echo "PACKAGE=${PWD}/DRSuite_${RELEASEVERSION}_linux_x64.zip" >> $GITHUB_ENV
 
       - name: Set environment variables for mac
         if: runner.os == 'macOS'
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
           if [ $(uname -m) == "x86_64" ]; then
-            echo "Package=${PWD}/DRSuite_${RELEASEVERSION}_mac_x64.zip" >> $GITHUB_ENV          
+            echo "PACKAGE=${PWD}/DRSuite_${RELEASEVERSION}_mac_x64.zip" >> $GITHUB_ENV          
           else
-            echo "Package=${PWD}/DRSuite_${RELEASEVERSION}_mac_ARM64.zip" >> $GITHUB_ENV
+            echo "PACKAGE=${PWD}/DRSuite_${RELEASEVERSION}_mac_ARM64.zip" >> $GITHUB_ENV
           fi
 
       - name: Set up MATLAB
@@ -108,16 +108,11 @@ jobs:
           name: Result-${{ env.SHA_SHORT }}
           path: Result
           overwrite: true
-
-      # - name: Publish ${{ env.Package }}
-      #   if: github.event_name == 'release'
-      #   run: |
-      #     mv cli.zip "${{ env.Package }}"
         
-      - name: Publish ${{ env.Package }}
+      - name: Publish ${{ env.PACKAGE }}
         if: github.event_name == 'release'
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.Package }}"
+          artifacts: "${{ env.PACKAGE }}"
           tag: ${{ env.RELEASEVERSION }}       
           allowUpdates: true
