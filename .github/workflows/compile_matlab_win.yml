@@ -55,7 +55,8 @@ jobs:
         run: |
           copy LICENSE.txt bin
           copy readme.md bin
-          copy ini2struct/LICENSE.txt ini2struct_license.txt 
+          copy ini2struct/LICENSE.txt ini2struct_license.txt
+          del bin/*.sh
 
       - name: create archive
         if: runner.os == 'Windows'
@@ -74,27 +75,19 @@ jobs:
       - name: Test 1D Workflow (MATLAB)
         uses: matlab-actions/run-command@v2
         with:
-          # startup-options: -sd packaging_tools
           command: "phantom_1d_workflow"
 
       - name: Test 2D Workflow (MATLAB)
         uses: matlab-actions/run-command@v2
         with:
-          # startup-options: -sd packaging_tools
           command: "phantom_2d_workflow"          
           
       - name: Test 1D Workflow (Compiled)
-        env:
-          BrainSuiteMCR: ${{ steps.setup-matlab.outputs.matlabroot }}
         run: |
-          PATH="${PWD}/bin:$PATH"
           ./phantom_1d_workflow.bat
 
       - name: Test 2D Workflow
-        env:
-          BrainSuiteMCR: ${{ steps.setup-matlab.outputs.matlabroot }}
         run: |
-          PATH="${PWD}/bin:$PATH"
           ./phantom_2d_workflow.bat
 
       - name: Save Test Output as Artifact
@@ -110,10 +103,10 @@ jobs:
       #   run: |
       #     mv cli.zip "${{ env.Package }}"
         
-      - name: Publish ${{ env.Package }}
+      - name: Publish ${{ env.PACKAGE }}
         if: github.event_name == 'release'
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.Package }}"
+          artifacts: "${{ env.PACKAGE }}"
           tag: ${{ env.RELEASEVERSION }}       
           allowUpdates: true
