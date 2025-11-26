@@ -24,6 +24,8 @@ function compile_cli()
     Ext='';
     if ismac
         Ext='.app';
+    elseif ispc
+        Ext='.exe';
     end
     mcc -m -a ../utilities ../plot_avg_spectra.m -o plot_avg_spectra
     movefile(['plot_avg_spectra' Ext],'../bin')
