@@ -9,25 +9,25 @@ REM Phantom generation
 if not exist "Result" mkdir Result
 
 echo Creating phantom...
-"%RootDir%bin\create_phantom.exe" -a data/acq_phantom1D.txt -i data/Phantom1D_spect.txt -o Phantom1D
+"%RootDir%bin\create_phantom.exe" acqfile data/acq_phantom1D.txt spectfile data/Phantom1D_spect.txt outfolder Phantom1D
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Running spectrum estimation (LADMM)...
-REM Spectrum Estimation --ladmm
-"%RootDir%bin\estimate_spectra.exe" -i Phantom1D/Phantom_data.mat -m Phantom1D/Phantom_mask.mat -d Phantom1D/Phantom_spectrm_info.mat -c demos/Phantom1D_ladmm.ini -o Result/Phantom1D_ladmm_spect.mat
+REM Spectrum Estimation ladmm
+"%RootDir%bin\estimate_spectra.exe" imgfile Phantom1D/Phantom_data.mat spatmaskfile Phantom1D/Phantom_mask.mat spect_infofile Phantom1D/Phantom_spectrm_info.mat configfile demos/Phantom1D_ladmm.ini outprefix Result/Phantom1D_ladmm_spect.mat
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-REM Spectrum Estimation --admm
-REM "%RootDir%bin\estimate_spectra.exe" -i Phantom1D/Phantom_data.mat -m Phantom1D/Phantom_mask.mat -d Phantom1D/Phantom_spectrm_info.mat -c demos/Phantom_admm.ini -o Result/Phantom1D_admm_spect.mat
+REM Spectrum Estimation admm
+REM "%RootDir%bin\estimate_spectra.exe" imgfile Phantom1D/Phantom_data.mat spatmaskfile Phantom1D/Phantom_mask.mat spect_infofile Phantom1D/Phantom_spectrm_info.mat configfile demos/Phantom_admm.ini outprefix Result/Phantom1D_admm_spect.mat
 REM if %errorlevel% neq 0 exit /b %errorlevel%
 
-REM Spectrum Estimation --nnls
-REM "%RootDir%bin\estimate_spectra.exe" -i Phantom1D/Phantom_data.mat -m Phantom1D/Phantom_mask.mat -d Phantom1D/Phantom_spectrm_info.mat -c demos/Phantom_nnls.ini -o Result/Phantom1D_nnls_spect.mat
+REM Spectrum Estimation nnls
+REM "%RootDir%bin\estimate_spectra.exe" imgfile Phantom1D/Phantom_data.mat spatmaskfile Phantom1D/Phantom_mask.mat spect_infofile Phantom1D/Phantom_spectrm_info.mat configfile demos/Phantom_nnls.ini outprefix Result/Phantom1D_nnls_spect.mat
 REM if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Plotting average spectra...
 REM Plot Average spectra
-"%RootDir%bin\plot_avg_spectra.exe" -i Result/Phantom1D_ladmm_spect.mat -m Phantom1D/Phantom_mask.mat -o Result/Phantom1D_data_ladmm_avg_spectra -t png pdf
+"%RootDir%bin\plot_avg_spectra.exe" spect_imfile Result/Phantom1D_ladmm_spect.mat spatmaskfile Phantom1D/Phantom_mask.mat outprefix Result/Phantom1D_data_ladmm_avg_spectra file_types png pdf
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Plotting spectroscopic image...
@@ -39,7 +39,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Plotting component maps...
 REM Plot component Maps
-"%RootDir%bin\plot_comp_maps.exe" -i Result/Phantom1D_ladmm_spect.mat -m data/Phantom1D_spectrm_mask.mat -c data/four_color.mat -o Result/Phantom1D_component_maps -t png epsc
+"%RootDir%bin\plot_comp_maps.exe" spect_imfile Result/Phantom1D_ladmm_spect.mat spectmaskfile data/Phantom1D_spectrm_mask.mat color data/four_color.mat outprefix Result/Phantom1D_component_maps file_types png epsc
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Done!
