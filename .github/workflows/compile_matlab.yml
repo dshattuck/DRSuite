@@ -65,7 +65,7 @@ jobs:
 
       - name: make package
         run: |
-          cp LICENSE.txt README.md bin
+          cp LICENSE.txt readme.md bin
           cd ..
           zip -r ${{env.PACKAGE}} DRSuite/bin
           
