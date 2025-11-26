@@ -11,7 +11,6 @@ on:
   #   branches: [main]
 env:
   RELEASEVERSION: ${{ github.ref_name }}
-  VERSION: 25a
   MLM_LICENSE_TOKEN: ${{ secrets.MATLAB_TOKEN }}
 jobs:
   build:
@@ -33,16 +32,16 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-          echo "Package=${PWD}/DRSuite_linux_x64.zip" >> $GITHUB_ENV
+          echo "Package=${PWD}/DRSuite_${{ env.VERSION }}_linux_x64.zip" >> $GITHUB_ENV
 
       - name: Set environment variables for mac
         if: runner.os == 'macOS'
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
           if [ $(uname -m) == "x86_64" ]; then
-            echo "Package=${PWD}/DRSuite_mac_x64.zip" >> $GITHUB_ENV          
+            echo "Package=${PWD}/DRSuite_${{ env.VERSION }}_mac_x64.zip" >> $GITHUB_ENV          
           else
-            echo "Package=${PWD}/DRSuite_mac_ARM64.zip" >> $GITHUB_ENV
+            echo "Package=${PWD}/DRSuite_${{ env.VERSION }}_mac_ARM64.zip" >> $GITHUB_ENV
           fi
 
       - name: Set up MATLAB
@@ -63,6 +62,12 @@ jobs:
         with:
           # startup-options: -sd packaging_tools
           command: "compile_cli"
+
+      - name: make package
+        run: |
+          cp LICENSE.txt README.md bin
+          cd ..
+          zip -r ${{env.PACKAGE}} DRSuite/bin
           
       - name: Save Binaries as Artifact
         uses: actions/upload-artifact@v4
