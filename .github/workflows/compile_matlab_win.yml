@@ -55,8 +55,13 @@ jobs:
         run: |
           copy LICENSE.txt bin
           copy readme.md bin
+          copy ini2struct/LICENSE.txt ini2struct_license.txt 
+
+      - name: create archive
+        if: runner.os == 'Windows'
           cd ..
-          zip -r "${PACKAGE}" DRSuite/bin
+          Compress-Archive -Path DRSuite/bin, DRSuite/ini2struct_license.txt -Destination new.zip
+          zip -r DRSuite/bin "${PACKAGE}" 
           
       - name: Save Binaries as Artifact
         uses: actions/upload-artifact@v4
