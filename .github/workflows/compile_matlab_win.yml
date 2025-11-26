@@ -59,6 +59,7 @@ jobs:
 
       - name: create archive
         if: runner.os == 'Windows'
+        run: |
           cd ..
           Compress-Archive -Path DRSuite/bin, DRSuite/ini2struct_license.txt -Destination "$env:PACKAGE"
           # zip -r DRSuite/bin "${PACKAGE}" 
