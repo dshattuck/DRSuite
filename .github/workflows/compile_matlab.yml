@@ -29,6 +29,24 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set environment variables for linux
+        if: runner.os == 'ubuntu-22.04'
+        run: |
+          echo "Package=${PWD}/DRSuite_linux_x64.zip" >> $GITHUB_ENV
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
+      - name: Set environment variables for ARM64 mac
+        if: runner.os == 'macos-15'
+        run: |
+          echo "Package=${PWD}/DRSuite_mac_ARM64.zip" >> $GITHUB_ENV
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
+      - name: Set environment variables for x64 mac
+        if: runner.os == 'macos-15-intel'
+        run: |
+          echo "Package=${PWD}/DRSuite_mac_x64.zip" >> $GITHUB_ENV
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
       - name: Set up MATLAB
         # if: runner.environment != 'self-hosted'
         uses: matlab-actions/setup-matlab@v2
@@ -42,24 +60,6 @@ jobs:
             Medical_Imaging_Toolbox
             Parallel_Computing_Toolbox
             
-      - name: Set environment variables for x64 Mac
-        if: runner.os == 'ubuntu-22.04'
-        run: |
-          echo "Package=${PWD}/DRSuite_linux_x64.zip" >> $GITHUB_ENV
-          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-
-      - name: Set environment variables for ARM64 Mac
-        if: runner.os == 'macos-15'
-        run: |
-          echo "Package=${PWD}/DRSuite_mac_ARM64.zip" >> $GITHUB_ENV
-          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-
-      - name: Set environment variables for x64 Mac
-        if: runner.os == 'macos-15-intel'
-        run: |
-          echo "Package=${PWD}/DRSuite_mac_x64.zip" >> $GITHUB_ENV
-          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-
       - name: Compile command-line tools
         uses: matlab-actions/run-command@v2
         with:
