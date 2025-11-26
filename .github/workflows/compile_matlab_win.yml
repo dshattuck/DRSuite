@@ -31,7 +31,7 @@ jobs:
       - name: Set environment variables for Windows
         if: runner.os == 'Windows'
         run: |
-          echo "SHA_SHORT=$(git rev-parse --short "${{ env.GITHUB_SHA }}")" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo "SHA_SHORT=$(git rev-parse --short "$env:GITHUB_SHA")" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           echo "Package=${PWD}/DRSuite_${{ env.VERSION }}_win_x64.zip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           
       - name: Set up MATLAB
