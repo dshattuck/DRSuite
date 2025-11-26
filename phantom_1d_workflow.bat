@@ -27,7 +27,7 @@ REM if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Plotting average spectra...
 REM Plot Average spectra
-"%RootDir%bin\plot_avg_spectra.exe" spect_imfile Result/Phantom1D_ladmm_spect.mat spatmaskfile Phantom1D/Phantom_mask.mat outprefix Result/Phantom1D_data_ladmm_avg_spectra file_types png pdf
+"%RootDir%bin\plot_avg_spectra.exe" spect_imfile Result/Phantom1D_ladmm_spect.mat spatmaskfile Phantom1D/Phantom_mask.mat outprefix Result/Phantom1D_data_ladmm_avg_spectra file_types "png pdf"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Plotting spectroscopic image...
@@ -39,7 +39,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Plotting component maps...
 REM Plot component Maps
-"%RootDir%bin\plot_comp_maps.exe" spect_imfile Result/Phantom1D_ladmm_spect.mat spectmaskfile data/Phantom1D_spectrm_mask.mat color data/four_color.mat outprefix Result/Phantom1D_component_maps file_types png epsc
+"%RootDir%bin\plot_comp_maps.exe" spect_imfile Result/Phantom1D_ladmm_spect.mat spectmaskfile data/Phantom1D_spectrm_mask.mat color data/four_color.mat outprefix Result/Phantom1D_component_maps file_types "png epsc"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Done!
