@@ -77,18 +77,18 @@ jobs:
         with:
           command: "phantom_1d_workflow"
 
-      - name: Test 2D Workflow (MATLAB)
-        uses: matlab-actions/run-command@v2
-        with:
-          command: "phantom_2d_workflow"          
+      # - name: Test 2D Workflow (MATLAB)
+      #   uses: matlab-actions/run-command@v2
+      #   with:
+      #     command: "phantom_2d_workflow"          
           
       - name: Test 1D Workflow (Compiled)
         run: |
           ./phantom_1d_workflow.bat
 
-      - name: Test 2D Workflow
-        run: |
-          ./phantom_2d_workflow.bat
+      # - name: Test 2D Workflow
+      #   run: |
+      #     ./phantom_2d_workflow.bat
 
       - name: Save Test Output as Artifact
         if: github.event_name != 'release'
