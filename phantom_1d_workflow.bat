@@ -29,12 +29,12 @@ echo Plotting average spectra...
 REM Plot Average spectra
 "%RootDir%bin\plot_avg_spectra.exe" spect_imfile Result/Phantom1D_ladmm_spect.mat spatmaskfile Phantom1D/Phantom_mask.mat outprefix Result/Phantom1D_data_ladmm_avg_spectra file_types pdf
 
-echo Plotting spectroscopic image...
+REM echo Plotting spectroscopic image...
 REM Plot spectroscopic image
 REM encoding sample chosen to show background MR data intensity
-set idx=9
-"%RootDir%bin\plot_spect_im.exe" Result/Phantom1D_ladmm_spect.mat Phantom1D/Phantom_data.mat %idx% Phantom1D/Phantom_mask.mat Result/Phantom1D_spectroscopic_Im png
-if %errorlevel% neq 0 exit /b %errorlevel%
+REM set idx=9
+REM "%RootDir%bin\plot_spect_im.exe" Result/Phantom1D_ladmm_spect.mat Phantom1D/Phantom_data.mat %idx% Phantom1D/Phantom_mask.mat Result/Phantom1D_spectroscopic_Im png
+REM if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo Plotting component maps...
 REM Plot component Maps
